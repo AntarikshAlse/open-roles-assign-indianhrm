@@ -32,7 +32,7 @@ const useJob = () => {
       }
     },
     retry: 5,
-    // enabled: false,
+    enabled: false,
   });
 
   const mockJobs = MOCK_JOBS.map(normalizeJob);

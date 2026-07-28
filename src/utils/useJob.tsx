@@ -15,7 +15,7 @@ export function normalizeJob(raw: RawJob, index: number): Job {
 }
 
 const useJob = () => {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, isError, refetch } = useQuery({
     queryKey: ["jobs"],
     queryFn: async () => {
       try {
@@ -24,15 +24,15 @@ const useJob = () => {
         );
         if (!res.ok) throw new Error(`Server responded with ${res.status}`);
         const data = await res.json();
+
         const normalizedData = data.map(normalizeJob);
         return normalizedData;
       } catch (error) {
         console.error(error);
-        throw error;
       }
     },
     retry: 5,
-    enabled: false,
+    // enabled: false,
   });
 
   const mockJobs = MOCK_JOBS.map(normalizeJob);
@@ -41,6 +41,8 @@ const useJob = () => {
     isLoading,
     error,
     mockJobs,
+    isError,
+    refetch,
   };
 };
 
